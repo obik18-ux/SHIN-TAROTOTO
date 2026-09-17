@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SHIN-TAROTOTO</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+    background: #f5f3ee;
+    color: #222;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 10px 0 5px;
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.panel {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 21px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #eee;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+.number {
+    width: 55px;
+}
+
+.result-input {
+    width: 80px;
+    text-align: center;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 13px 25px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#startButton {
+    background: #222;
+    color: white;
+}
+
+#nextButton {
+    background: #555;
+    color: white;
+}
+
+#resetButton {
+    background: #ddd;
+    color: #222;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.center {
+    text-align: center;
+}
+
+#drawArea {
+    display: none;
+    text-align: center;
+}
+
+.match-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.teams {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.card-box {
+    margin: 20px auto;
+}
+
+.card-image {
+    width: 240px;
+    max-width: 70vw;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.card-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.position {
+    font-size: 19px;
+    margin: 5px;
+}
+
+.prediction {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.comparison {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 15px 25px;
+    background: #f1f1f1;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.final-result {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+#completeArea {
+    display: none;
+}
+
+.final-table {
+    margin-top: 15px;
+}
+
+.final-table td,
+.final-table th {
+    font-size: 14px;
+}
+
+.small {
+    font-size: 13px;
+    color: #666;
+}
+
+@media (max-width: 700px) {
+
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .panel {
+        padding: 12px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        padding: 4px;
+    }
+
+    input,
+    select {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .card-image {
+        width: 200px;
+    }
+
+    .match-title {
+        font-size: 20px;
+    }
+
+    .teams {
+        font-size: 17px;
+    }
+
+    .prediction {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>SHIN-TAROTOTO</h1>
+
+<div class="subtitle">
+スポーツくじ × totoONE × Tarot
+</div>
+
+<div id="inputArea" class="panel">
+
+<h2>13試合を入力してください</h2>
+
+<p class="small">
+1＝ホーム勝ち　0＝引き分け　2＝アウェー勝ち
+</p>
+
+<table>
+<thead>
+<tr>
+<th>No.</th>
+<th>ホームチーム</th>
+<th>vs</th>
+<th>アウェーチーム</th>
+<th>スポーツくじ</th>
+<th>totoONE</th>
+</tr>
+</thead>
+
+<tbody id="matchTable">
+</tbody>
+
+</table>
+
+<div class="center" style="margin-top:20px;">
+<button id="startButton" onclick="startTarot()">
+TAROTOTOを始める
+</button>
+</div>
+
+</div>
+
+
+<div id="drawArea" class="panel">
+
+<div class="match-title" id="matchNumber"></div>
+
+<div class="teams" id="matchTeams"></div>
+
+<div class="card-box">
+
+<img id="cardImage"
+     class="card-image"
+     src=""
+     alt="Tarot Card">
+
+<div class="card-name" id="cardName"></div>
+
+<div class="position" id="cardPosition"></div>
+
+<div class="prediction" id="tarotPrediction"></div>
+
+</div>
+
+<div class="comparison">
+
+<div>
+スポーツくじ：
+<span id="sportsResult"></span>
+</div>
+
+<div>
+totoONE：
+<span id="totoResult"></span>
+</div>
+
+<div>
+Tarot：
+<span id="tarotResult"></span>
+</div>
+
+<div class="final-result">
+最終予想：
+<span id="finalResult"></span>
+</div>
+
+</div>
+
+<div class="center" style="margin-top:20px;">
+<button id="nextButton" onclick="nextMatch()">
+次の試合
+</button>
+</div>
+
+</div>
+
+
+<div id="completeArea" class="panel">
+
+<h2>13試合の予想が完成しました</h2>
+
+<table class="final-table">
+
+<thead>
+<tr>
+<th>No.</th>
+<th>対戦</th>
+<th>スポーツくじ</th>
+<th>totoONE</th>
+<th>Tarot</th>
+<th>最終予想</th>
+</tr>
+</thead>
+
+<tbody id="finalTableBody">
+</tbody>
+
+</table>
+
+<div class="center" style="margin-top:20px;">
+<button id="resetButton" onclick="location.reload()">
+もう一度占う
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   22枚の大アルカナ
+   ===================================================== */
+
+const tarotCards = [
+
+{
+    name: "愚者",
+    file: "RWS Tarot 00 Fool.jpg",
+    upright: 1,
+    reversed: 2
+},
+
+{
+    name: "魔術師",
+    file: "RWS Tarot 01 Magician.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "女教皇",
+    file: "RWS Tarot 02 High Priestess.jpg",
+    upright: 0,
+    reversed: 2
+},
+
+{
+    name: "女帝",
+    file: "RWS Tarot 03 Empress.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "皇帝",
+    file: "RWS Tarot 04 Emperor.jpg",
+    upright: 1,
+    reversed: 2
+},
+
+{
+    name: "法王",
+    file: "RWS Tarot 05 Hierophant.jpg",
+    upright: 0,
+    reversed: 1
+},
+
+{
+    name: "恋人",
+    file: "RWS Tarot 06 Lovers.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "戦車",
+    file: "RWS Tarot 07 Chariot.jpg",
+    upright: 1,
+    reversed: 2
+},
+
+{
+    name: "力",
+    file: "RWS Tarot 08 Strength.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "隠者",
+    file: "RWS Tarot 09 Hermit.jpg",
+    upright: 0,
+    reversed: 2
+},
+
+{
+    name: "運命の輪",
+    file: "RWS Tarot 10 Wheel of Fortune.jpg",
+    upright: 1,
+    reversed: 2
+},
+
+{
+    name: "正義",
+    file: "RWS Tarot 11 Justice.jpg",
+    upright: 0,
+    reversed: 1
+},
+
+{
+    name: "吊るされた男",
+    file: "RWS Tarot 12 Hanged Man.jpg",
+    upright: 0,
+    reversed: 2
+},
+
+{
+    name: "死神",
+    file: "RWS Tarot 13 Death.jpg",
+    upright: 2,
+    reversed: 1
+},
+
+{
+    name: "節制",
+    file: "RWS Tarot 14 Temperance.jpg",
+    upright: 0,
+    reversed: 1
+},
+
+{
+    name: "悪魔",
+    file: "RWS Tarot 15 Devil.jpg",
+    upright: 2,
+    reversed: 0
+},
+
+{
+    name: "塔",
+    file: "RWS Tarot 16 Tower.jpg",
+    upright: 2,
+    reversed: 0
+},
+
+{
+    name: "星",
+    file: "RWS Tarot 17 Star.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "月",
+    file: "RWS Tarot 18 Moon.jpg",
+    upright: 2,
+    reversed: 0
+},
+
+{
+    name: "太陽",
+    file: "RWS Tarot 19 Sun.jpg",
+    upright: 1,
+    reversed: 0
+},
+
+{
+    name: "審判",
+    file: "RWS Tarot 20 Judgement.jpg",
+    upright: 1,
+    reversed: 2
+},
+
+{
+    name: "世界",
+    file: "RWS Tarot 21 World.jpg",
+    upright: 1,
+    reversed: 0
+}
+
+];
+
+
+/* =====================================================
+   Wikimedia Commons画像URL
+   ===================================================== */
+
+function getImageURL(fileName) {
+
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/"
+        + encodeURIComponent(fileName);
+
+}
+
+
+/* =====================================================
+   13試合入力欄を作る
+   ===================================================== */
+
+const matchTable =
+    document.getElementById("matchTable");
+
+for (let i = 1; i <= 13; i++) {
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+
+        <td>${i}</td>
+
+        <td>
+            <input
+                type="text"
+                id="home${i}"
+                placeholder="ホーム">
+        </td>
+
+        <td>vs</td>
+
+        <td>
+            <input
+                type="text"
+                id="away${i}"
+                placeholder="アウェー">
+        </td>
+
+        <td>
+            <select id="sports${i}">
+                <option value="">選択</option>
+                <option value="1">1</option>
+                <option value="0">0</option>
+                <option value="2">2</option>
+            </select>
+        </td>
+
+        <td>
+            <select id="toto${i}">
+                <option value="">選択</option>
+                <option value="1">1</option>
+                <option value="0">0</option>
+                <option value="2">2</option>
+            </select>
+        </td>
+    `;
+
+    matchTable.appendChild(tr);
+}
+
+
+/* =====================================================
+   データ
+   ===================================================== */
+
+let matches = [];
+
+let currentMatch = 0;
+
+let usedCards = [];
+
+let tarotResults = [];
+
+
+/* =====================================================
+   抽選
+   ===================================================== */
+
+function drawNewCard() {
+
+    let available = [];
+
+    for (let i = 0; i < tarotCards.length; i++) {
+
+        if (!usedCards.includes(i)) {
+            available.push(i);
+        }
+
+    }
+
+    const randomIndex =
+        Math.floor(Math.random() * available.length);
+
+    const cardIndex = available[randomIndex];
+
+    usedCards.push(cardIndex);
+
+    const card = tarotCards[cardIndex];
+
+    const reversed = Math.random() < 0.5;
+
+    const position =
+        reversed ? "逆位置" : "正位置";
+
+    const prediction =
+        reversed ? card.reversed : card.upright;
+
+    return {
+        card: card,
+        position: position,
+        prediction: prediction
+    };
+}
+
+
+/* =====================================================
+   3結果の多数決
+   ===================================================== */
+
+function decideFinal(sports, toto, tarot) {
+
+    const values = [sports, toto, tarot];
+
+    if (sports === toto) {
+        return sports;
+    }
+
+    if (sports === tarot) {
+        return sports;
+    }
+
+    if (toto === tarot) {
+        return toto;
+    }
+
+    /*
+       3つすべて異なる場合はTarot
+    */
+
+    return tarot;
+}
+
+
+/* =====================================================
+   TAROTOTO開始
+   ===================================================== */
+
+function startTarot() {
+
+    matches = [];
+
+    for (let i = 1; i <= 13; i++) {
+
+        const home =
+            document.getElementById("home" + i).value.trim();
+
+        const away =
+            document.getElementById("away" + i).value.trim();
+
+        const sports =
+            document.getElementById("sports" + i).value;
+
+        const toto =
+            document.getElementById("toto" + i).value;
+
+        if (home === "" || away === "") {
+
+            alert(
+                i + "試合目のホームチームとアウェーチームを入力してください。"
+            );
+
+            return;
+        }
+
+        if (sports === "" || toto === "") {
+
+            alert(
+                i + "試合目のスポーツくじとtotoONEを選択してください。"
+            );
+
+            return;
+        }
+
+        matches.push({
+
+            no: i,
+
+            home: home,
+
+            away: away,
+
+            sports: Number(sports),
+
+            toto: Number(toto),
+
+            tarot: null,
+
+            final: null,
+
+            card: null,
+
+            position: ""
+
+        });
+
+    }
+
+    currentMatch = 0;
+
+    usedCards = [];
+
+    tarotResults = [];
+
+    document.getElementById("inputArea").style.display = "none";
+
+    document.getElementById("completeArea").style.display = "none";
+
+    document.getElementById("drawArea").style.display = "block";
+
+    showCurrentMatch();
+}
+
+
+/* =====================================================
+   現在の試合を表示
+   ===================================================== */
+
+function showCurrentMatch() {
+
+    const match = matches[currentMatch];
+
+    const draw = drawNewCard();
+
+    match.card = draw.card;
+
+    match.position = draw.position;
+
+    match.tarot = draw.prediction;
+
+    match.final =
+        decideFinal(
+            match.sports,
+            match.toto,
+            match.tarot
+        );
+
+    document.getElementById("matchNumber").textContent =
+        "第" + match.no + "試合";
+
+    document.getElementById("matchTeams").textContent =
+        match.home + "  vs  " + match.away;
+
+    const image =
+        document.getElementById("cardImage");
+
+    image.src =
+        getImageURL(draw.card.file);
+
+    image.alt =
+        draw.card.name;
+
+    /*
+       逆位置の場合は画像を180度回転
+    */
+
+    if (draw.position === "逆位置") {
+
+        image.style.transform =
+            "rotate(180deg)";
+
+    } else {
+
+        image.style.transform =
+            "rotate(0deg)";
+
+    }
+
+    document.getElementById("cardName").textContent =
+        draw.card.name;
+
+    document.getElementById("cardPosition").textContent =
+        draw.position;
+
+    document.getElementById("tarotPrediction").textContent =
+        "Tarot予想：" + draw.prediction;
+
+    document.getElementById("sportsResult").textContent =
+        match.sports;
+
+    document.getElementById("totoResult").textContent =
+        match.toto;
+
+    document.getElementById("tarotResult").textContent =
+        match.tarot;
+
+    document.getElementById("finalResult").textContent =
+        match.final;
+
+    if (currentMatch === 12) {
+
+        document.getElementById("nextButton").textContent =
+            "13試合の結果を見る";
+
+    } else {
+
+        document.getElementById("nextButton").textContent =
+            "次の試合";
+
+    }
+
+}
+
+
+/* =====================================================
+   次の試合
+   ===================================================== */
+
+function nextMatch() {
+
+    currentMatch++;
+
+    if (currentMatch >= 13) {
+
+        showComplete();
+
+        return;
+    }
+
+    showCurrentMatch();
+
+}
+
+
+/* =====================================================
+   13試合完成画面
+   ===================================================== */
+
+function showComplete() {
+
+    document.getElementById("drawArea").style.display =
+        "none";
+
+    document.getElementById("completeArea").style.display =
+        "block";
+
+    const body =
+        document.getElementById("finalTableBody");
+
+    body.innerHTML = "";
+
+    for (let i = 0; i < matches.length; i++) {
+
+        const m = matches[i];
+
+        const tr =
+            document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>${m.no}</td>
+
+            <td>
+                ${m.home}<br>
+                vs<br>
+                ${m.away}
+            </td>
+
+            <td>${m.sports}</td>
+
+            <td>${m.toto}</td>
+
+            <td>
+                ${m.card.name}<br>
+                ${m.position}<br>
+                ${m.tarot}
+            </td>
+
+            <td>
+                <strong>${m.final}</strong>
+            </td>
+        `;
+
+        body.appendChild(tr);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
