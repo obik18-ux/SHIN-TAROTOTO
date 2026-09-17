@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>SHIN-TAROTOTO 13試合予測</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -18,30 +22,30 @@ body {
         "Meiryo",
         Arial,
         sans-serif;
-    background: #f4f6f8;
+
+    background: #f3f4f6;
     color: #222;
 }
 
 .container {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 950px;
+    margin: auto;
+    padding: 15px;
 }
 
 header {
-    text-align: center;
     background: #111827;
     color: white;
+    text-align: center;
     padding: 25px 15px;
     border-radius: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 header h1 {
     margin: 0;
     font-size: 30px;
-    letter-spacing: 1px;
 }
 
 header p {
@@ -49,78 +53,70 @@ header p {
     font-size: 16px;
 }
 
-.notice {
+.card {
     background: white;
     border-radius: 12px;
     padding: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.notice strong {
-    font-size: 18px;
+.card h2 {
+    margin-top: 0;
+    font-size: 21px;
 }
 
-.match {
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 14px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+.explanation {
+    line-height: 1.7;
 }
 
-.match-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.inputs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-label {
-    font-size: 13px;
-    color: #555;
-    display: block;
-    margin-bottom: 5px;
-}
-
-input,
-select {
+textarea {
     width: 100%;
-    padding: 11px;
-    border: 1px solid #ccc;
+    min-height: 230px;
+
+    padding: 12px;
+
+    border: 1px solid #bbb;
     border-radius: 8px;
-    font-size: 16px;
-    background: white;
+
+    font-size: 15px;
+    line-height: 1.6;
+
+    resize: vertical;
 }
 
-.section-title {
-    margin: 28px 0 12px;
-    font-size: 22px;
-    font-weight: bold;
+.button-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 button {
     width: 100%;
+
     border: none;
     border-radius: 10px;
-    padding: 16px;
-    font-size: 19px;
+
+    padding: 15px;
+
+    font-size: 18px;
     font-weight: bold;
+
     cursor: pointer;
-    margin-top: 10px;
 }
 
-#predictButton {
+.extract-button {
     background: #111827;
     color: white;
 }
 
-#resetButton {
+.predict-button {
+    background: #166534;
+    color: white;
+}
+
+.reset-button {
     background: #6b7280;
     color: white;
 }
@@ -129,17 +125,98 @@ button:hover {
     opacity: 0.9;
 }
 
+.message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
+    display: none;
+}
+
+.message.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.message.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.message.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th {
+    background: #e5e7eb;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+td {
+    padding: 7px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.number-cell {
+    width: 50px;
+    font-weight: bold;
+}
+
+.vs-cell {
+    width: 55px;
+    font-weight: bold;
+}
+
+.team-input {
+    width: 100%;
+    padding: 9px;
+
+    border: 1px solid #bbb;
+    border-radius: 6px;
+
+    font-size: 15px;
+}
+
+.section-title {
+    margin-top: 25px;
+    margin-bottom: 12px;
+
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#matchArea {
+    display: none;
+}
+
 #resultArea {
     display: none;
-    margin-top: 30px;
 }
 
 .result-card {
     background: white;
+
     border-radius: 12px;
+
+    padding: 15px;
+
     margin-bottom: 12px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08);
 }
 
 .result-number {
@@ -147,33 +224,42 @@ button:hover {
     font-size: 17px;
 }
 
-.teams {
+.result-teams {
     margin: 8px 0;
     font-size: 16px;
 }
 
 .prediction {
     display: inline-block;
+
     padding: 8px 18px;
+
     border-radius: 20px;
+
     background: #111827;
     color: white;
+
     font-size: 18px;
     font-weight: bold;
 }
 
 .confidence {
     margin-top: 8px;
+    color: #666;
     font-size: 14px;
-    color: #555;
 }
 
 .summary {
     background: white;
+
     border-radius: 12px;
-    padding: 20px;
+
+    padding: 18px;
+
     margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08);
 }
 
 .summary h3 {
@@ -182,19 +268,21 @@ button:hover {
 
 .summary-row {
     display: flex;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid #eee;
-}
 
-.summary-row:last-child {
-    border-bottom: none;
+    justify-content: space-between;
+
+    padding: 9px 0;
+
+    border-bottom: 1px solid #eee;
 }
 
 footer {
     text-align: center;
+
     color: #777;
+
     font-size: 13px;
+
     margin: 30px 0 10px;
 }
 
@@ -208,162 +296,719 @@ footer {
         font-size: 25px;
     }
 
-    .inputs {
-        grid-template-columns: 1fr;
-    }
-
-    .match {
+    .card {
         padding: 13px;
     }
+
+    button {
+        font-size: 17px;
+    }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
+
 <header>
+
     <h1>SHIN-TAROTOTO</h1>
+
     <p>13試合 予測WEB版</p>
+
 </header>
 
-<div class="notice">
-    <strong>13試合を入力してください。</strong>
-    <p>
-        ホームチームとアウェイチームを入力し、
-        必要に応じて各チームの情報を入力してください。
-    </p>
+
+<!-- ======================================
+     STEP 1
+====================================== -->
+
+<div class="card">
+
+    <h2>① スポーツくじの試合データを貼り付け</h2>
+
+    <div class="explanation">
+
+        スポーツくじのサイトから、
+        試合以外の情報も含めてそのままコピーしてください。
+
+        <br><br>
+
+        コピーしたデータを、下の欄にそのまま貼り付けます。
+
+        <br><br>
+
+        <strong>
+        ホームチーム　vs　アウェーチーム
+        </strong>
+
+        の形を自動的に探します。
+
+    </div>
+
+    <br>
+
+    <textarea
+        id="sourceData"
+        placeholder="スポーツくじのサイトからコピーしたデータを、ここにそのまま貼り付けてください。"
+    ></textarea>
+
+
+    <div class="button-area">
+
+        <button
+            class="extract-button"
+            onclick="extractMatches()">
+
+            ② 13試合を抽出する
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
 </div>
 
-<div id="matches"></div>
 
-<button id="predictButton" onclick="predictAll()">
-    13試合を予測する
-</button>
 
-<button id="resetButton" onclick="resetAll()">
-    入力をリセット
-</button>
+<!-- ======================================
+     STEP 2
+====================================== -->
 
-<div id="resultArea">
+<div
+    id="matchArea"
+    class="card">
 
-    <div class="section-title">
-        予測結果
+    <h2>③ 13試合を確認してください</h2>
+
+    <p>
+        自動抽出されたチーム名を確認してください。
+        間違っている場合は直接修正できます。
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No.</th>
+
+                    <th>ホームチーム</th>
+
+                    <th>vs</th>
+
+                    <th>アウェーチーム</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="matchTable">
+
+            </tbody>
+
+        </table>
+
     </div>
+
+
+    <div class="button-area">
+
+        <button
+            class="predict-button"
+            onclick="predictAll()">
+
+            ④ 13試合を予測する
+
+        </button>
+
+        <button
+            class="reset-button"
+            onclick="resetAll()">
+
+            入力をリセット
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ======================================
+     STEP 3
+====================================== -->
+
+<div
+    id="resultArea"
+    class="card">
+
+    <h2>⑤ 予測結果</h2>
 
     <div id="results"></div>
 
+
     <div class="summary">
+
         <h3>13試合の集計</h3>
 
         <div class="summary-row">
-            <span>ホーム勝ち</span>
+
+            <span>1　ホーム勝ち</span>
+
             <strong id="homeCount">0</strong>
+
         </div>
 
         <div class="summary-row">
-            <span>引き分け</span>
+
+            <span>0　引き分け</span>
+
             <strong id="drawCount">0</strong>
+
         </div>
 
         <div class="summary-row">
-            <span>アウェイ勝ち</span>
+
+            <span>2　アウェイ勝ち</span>
+
             <strong id="awayCount">0</strong>
+
         </div>
+
     </div>
 
 </div>
 
+
 <footer>
+
     SHIN-TAROTOTO
+
 </footer>
+
 
 </div>
 
+
+
 <script>
+
+/* =========================================
+   基本設定
+========================================= */
 
 const MATCH_COUNT = 13;
 
 
-/* ========================================
-   13試合の入力欄を作成
-======================================== */
+/* =========================================
+   試合データ
+========================================= */
 
-function createMatches() {
+let matches = [];
 
-    const area = document.getElementById("matches");
 
-    area.innerHTML = "";
+/* =========================================
+   メッセージ表示
+========================================= */
 
-    for (let i = 1; i <= MATCH_COUNT; i++) {
+function showMessage(text, type) {
 
-        const div = document.createElement("div");
+    const message =
+        document.getElementById("message");
 
-        div.className = "match";
+    message.textContent = text;
 
-        div.innerHTML = `
+    message.className =
+        "message " + type;
 
-            <div class="match-title">
-                第${i}試合
-            </div>
-
-            <div class="inputs">
-
-                <div>
-                    <label>ホームチーム</label>
-                    <input
-                        type="text"
-                        id="home${i}"
-                        placeholder="ホームチーム"
-                    >
-                </div>
-
-                <div>
-                    <label>アウェイチーム</label>
-                    <input
-                        type="text"
-                        id="away${i}"
-                        placeholder="アウェイチーム"
-                    >
-                </div>
-
-            </div>
-
-        `;
-
-        area.appendChild(div);
-    }
+    message.style.display = "block";
 }
 
 
-/* ========================================
-   簡易予測
-======================================== */
+/* =========================================
+   チーム名の整理
+========================================= */
 
-function calculatePrediction(home, away, matchNo) {
+function cleanTeamName(text) {
+
+    if (!text) {
+        return "";
+    }
+
+    let value = text.trim();
+
+    value = value.replace(
+        /^[0-9０-９]+[.\、．）)]*\s*/,
+        ""
+    );
+
+    value = value.replace(
+        /^[【\[\(（].*?[】\]\)）]\s*/,
+        ""
+    );
+
+    return value.trim();
+}
+
+
+/* =========================================
+   1行から対戦カードを探す
+========================================= */
+
+function parseLine(line) {
+
+    if (!line) {
+        return null;
+    }
+
+    let text = line.trim();
+
+    if (text === "") {
+        return null;
+    }
+
 
     /*
-       チーム名から一定の数値を作る。
-       同じチーム名なら同じ傾向になるようにする。
+       タブをスペースに変換
     */
+
+    text = text.replace(/\t+/g, " ");
+
+
+    /*
+       連続スペースを整理
+    */
+
+    text = text.replace(/\s+/g, " ");
+
+
+    /*
+       さまざまな「vs」を統一
+    */
+
+    const separators = [
+        " vs ",
+        " VS ",
+        " Vs ",
+        " v ",
+        " V ",
+        " 対 ",
+        " 対"
+    ];
+
+
+    for (const separator of separators) {
+
+        const position =
+            text.indexOf(separator);
+
+        if (position >= 0) {
+
+            let home =
+                text.substring(
+                    0,
+                    position
+                ).trim();
+
+            let away =
+                text.substring(
+                    position +
+                    separator.length
+                ).trim();
+
+
+            /*
+               前後の不要情報を整理
+            */
+
+            home = cleanTeamName(home);
+            away = cleanTeamName(away);
+
+
+            /*
+               空欄なら採用しない
+            */
+
+            if (
+                home.length >= 2 &&
+                away.length >= 2
+            ) {
+
+                return {
+                    home: home,
+                    away: away
+                };
+
+            }
+        }
+    }
+
+
+    /*
+       「ホーム vs アウェイ」
+       以外に「ホーム　アウェイ」
+       のようなデータにも対応
+    */
+
+    return null;
+}
+
+
+/* =========================================
+   貼り付けデータから試合を抽出
+========================================= */
+
+function extractMatches() {
+
+    const source =
+        document.getElementById(
+            "sourceData"
+        ).value;
+
+
+    if (!source.trim()) {
+
+        showMessage(
+            "データを貼り付けてください。",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    /*
+       改行で分割
+    */
+
+    const lines =
+        source.split(/\r?\n/);
+
+
+    let found = [];
+
+
+    for (let line of lines) {
+
+        const match =
+            parseLine(line);
+
+        if (match) {
+
+            found.push(match);
+
+        }
+
+    }
+
+
+    /*
+       重複を削除
+    */
+
+    const unique = [];
+
+    const used = new Set();
+
+
+    for (const match of found) {
+
+        const key =
+            match.home +
+            "___" +
+            match.away;
+
+
+        if (!used.has(key)) {
+
+            used.add(key);
+
+            unique.push(match);
+
+        }
+
+    }
+
+
+    matches =
+        unique.slice(0, MATCH_COUNT);
+
+
+    /*
+       13試合より少ない場合
+    */
+
+    if (matches.length === 0) {
+
+        showMessage(
+            "対戦カードを自動抽出できませんでした。下の表へ直接入力してください。",
+            "warning"
+        );
+
+        createEmptyTable();
+
+        return;
+    }
+
+
+    if (matches.length < MATCH_COUNT) {
+
+        showMessage(
+            matches.length +
+            "試合を抽出しました。残りは表へ直接入力してください。",
+            "warning"
+        );
+
+    }
+    else {
+
+        showMessage(
+            "13試合を抽出しました。内容を確認してください。",
+            "success"
+        );
+
+    }
+
+
+    createMatchTable();
+
+}
+
+
+/* =========================================
+   空の13試合表
+========================================= */
+
+function createEmptyTable() {
+
+    matches = [];
+
+    for (
+        let i = 0;
+        i < MATCH_COUNT;
+        i++
+    ) {
+
+        matches.push({
+            home: "",
+            away: ""
+        });
+
+    }
+
+    createMatchTable();
+
+}
+
+
+/* =========================================
+   試合表を作成
+========================================= */
+
+function createMatchTable() {
+
+    const table =
+        document.getElementById(
+            "matchTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < MATCH_COUNT;
+        i++
+    ) {
+
+        const match =
+            matches[i] || {
+                home: "",
+                away: ""
+            };
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td class="number-cell">
+                ${i + 1}
+            </td>
+
+            <td>
+
+                <input
+                    class="team-input"
+                    id="home${i}"
+                    value="${escapeHtml(match.home)}"
+                    placeholder="ホームチーム">
+
+            </td>
+
+            <td class="vs-cell">
+                vs
+            </td>
+
+            <td>
+
+                <input
+                    class="team-input"
+                    id="away${i}"
+                    value="${escapeHtml(match.away)}"
+                    placeholder="アウェーチーム">
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    }
+
+
+    document.getElementById(
+        "matchArea"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "resultArea"
+    ).style.display = "none";
+
+
+    window.scrollTo({
+        top:
+            document.getElementById(
+                "matchArea"
+            ).offsetTop - 15,
+
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================
+   表から試合データを取得
+========================================= */
+
+function readMatches() {
+
+    const data = [];
+
+
+    for (
+        let i = 0;
+        i < MATCH_COUNT;
+        i++
+    ) {
+
+        const home =
+            document.getElementById(
+                "home" + i
+            ).value.trim();
+
+
+        const away =
+            document.getElementById(
+                "away" + i
+            ).value.trim();
+
+
+        if (
+            home === "" ||
+            away === ""
+        ) {
+
+            alert(
+                "第" +
+                (i + 1) +
+                "試合のホームチームとアウェーチームを入力してください。"
+            );
+
+
+            document.getElementById(
+                home === ""
+                ? "home" + i
+                : "away" + i
+            ).focus();
+
+
+            return null;
+
+        }
+
+
+        data.push({
+            home: home,
+            away: away
+        });
+
+    }
+
+
+    return data;
+}
+
+
+/* =========================================
+   予測計算
+========================================= */
+
+function calculatePrediction(
+    home,
+    away,
+    matchNo
+) {
 
     function teamValue(name) {
 
         let value = 0;
 
-        for (let i = 0; i < name.length; i++) {
 
-            value += name.charCodeAt(i) * (i + 1);
+        for (
+            let i = 0;
+            i < name.length;
+            i++
+        ) {
+
+            value +=
+                name.charCodeAt(i) *
+                (i + 1);
 
         }
+
 
         return value;
     }
 
 
-    const homeValue = teamValue(home);
-    const awayValue = teamValue(away);
+    const homeValue =
+        teamValue(home);
+
+
+    const awayValue =
+        teamValue(away);
 
 
     /*
@@ -419,22 +1064,37 @@ function calculatePrediction(home, away, matchNo) {
 
 
     return {
-        prediction: prediction,
-        confidence: confidence
+        prediction:
+            prediction,
+
+        confidence:
+            confidence
     };
 }
 
 
-/* ========================================
-   13試合を予測
-======================================== */
+/* =========================================
+   13試合予測
+========================================= */
 
 function predictAll() {
 
-    const resultsArea =
-        document.getElementById("results");
+    const data =
+        readMatches();
 
-    resultsArea.innerHTML = "";
+
+    if (!data) {
+        return;
+    }
+
+
+    const results =
+        document.getElementById(
+            "results"
+        );
+
+
+    results.innerHTML = "";
 
 
     let homeCount = 0;
@@ -442,184 +1102,247 @@ function predictAll() {
     let awayCount = 0;
 
 
-    for (let i = 1; i <= MATCH_COUNT; i++) {
+    for (
+        let i = 0;
+        i < data.length;
+        i++
+    ) {
 
-        const home =
-            document.getElementById("home" + i).value.trim();
-
-        const away =
-            document.getElementById("away" + i).value.trim();
-
-
-        if (home === "" || away === "") {
-
-            alert(
-                "第" + i +
-                "試合のホームチームとアウェイチームを入力してください。"
-            );
-
-            document.getElementById(
-                home === "" ? "home" + i : "away" + i
-            ).focus();
-
-            return;
-        }
+        const match =
+            data[i];
 
 
         const result =
-            calculatePrediction(home, away, i);
+            calculatePrediction(
+                match.home,
+                match.away,
+                i + 1
+            );
 
 
-        if (result.prediction === "1") {
+        if (
+            result.prediction === "1"
+        ) {
+
             homeCount++;
+
         }
-        else if (result.prediction === "0") {
+        else if (
+            result.prediction === "0"
+        ) {
+
             drawCount++;
+
         }
         else {
+
             awayCount++;
+
         }
 
 
-        let predictionText;
+        let text;
 
 
-        if (result.prediction === "1") {
+        if (
+            result.prediction === "1"
+        ) {
 
-            predictionText =
+            text =
                 "1　ホーム勝ち";
 
         }
-        else if (result.prediction === "0") {
+        else if (
+            result.prediction === "0"
+        ) {
 
-            predictionText =
+            text =
                 "0　引き分け";
 
         }
         else {
 
-            predictionText =
+            text =
                 "2　アウェイ勝ち";
 
         }
 
 
-        const div =
-            document.createElement("div");
+        const card =
+            document.createElement(
+                "div"
+            );
 
-        div.className =
+
+        card.className =
             "result-card";
 
 
-        div.innerHTML = `
+        card.innerHTML = `
 
             <div class="result-number">
-                第${i}試合
+                第${i + 1}試合
             </div>
 
-            <div class="teams">
-                ${escapeHtml(home)}
+            <div class="result-teams">
+
+                ${escapeHtml(match.home)}
+
                　vs　
-                ${escapeHtml(away)}
+
+                ${escapeHtml(match.away)}
+
             </div>
 
             <div class="prediction">
-                ${predictionText}
+
+                ${text}
+
             </div>
 
             <div class="confidence">
-                信頼度：${result.confidence}
+
+                信頼度：
+                ${result.confidence}
+
             </div>
 
         `;
 
 
-        resultsArea.appendChild(div);
-    }
-
-
-    document.getElementById("homeCount").textContent =
-        homeCount;
-
-    document.getElementById("drawCount").textContent =
-        drawCount;
-
-    document.getElementById("awayCount").textContent =
-        awayCount;
-
-
-    document.getElementById("resultArea").style.display =
-        "block";
-
-
-    window.scrollTo({
-        top: document.getElementById("resultArea").offsetTop - 20,
-        behavior: "smooth"
-    });
-
-}
-
-
-/* ========================================
-   HTMLエスケープ
-======================================== */
-
-function escapeHtml(text) {
-
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-/* ========================================
-   リセット
-======================================== */
-
-function resetAll() {
-
-    if (!confirm("入力した内容をすべて消しますか？")) {
-        return;
-    }
-
-
-    for (let i = 1; i <= MATCH_COUNT; i++) {
-
-        document.getElementById(
-            "home" + i
-        ).value = "";
-
-        document.getElementById(
-            "away" + i
-        ).value = "";
+        results.appendChild(card);
 
     }
 
 
     document.getElementById(
-        "results"
+        "homeCount"
+    ).textContent =
+        homeCount;
+
+
+    document.getElementById(
+        "drawCount"
+    ).textContent =
+        drawCount;
+
+
+    document.getElementById(
+        "awayCount"
+    ).textContent =
+        awayCount;
+
+
+    document.getElementById(
+        "resultArea"
+    ).style.display =
+        "block";
+
+
+    window.scrollTo({
+
+        top:
+            document.getElementById(
+                "resultArea"
+            ).offsetTop - 15,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* =========================================
+   HTMLエスケープ
+========================================= */
+
+function escapeHtml(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================
+   全リセット
+========================================= */
+
+function resetAll() {
+
+    if (
+        !confirm(
+            "入力した内容をすべて消しますか？"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "sourceData"
+    ).value = "";
+
+
+    document.getElementById(
+        "matchTable"
     ).innerHTML = "";
+
+
+    document.getElementById(
+        "matchArea"
+    ).style.display = "none";
+
 
     document.getElementById(
         "resultArea"
     ).style.display = "none";
 
 
+    document.getElementById(
+        "message"
+    ).style.display = "none";
+
+
+    matches = [];
+
+
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
+
 }
-
-
-/* ========================================
-   起動
-======================================== */
-
-createMatches();
 
 </script>
 
