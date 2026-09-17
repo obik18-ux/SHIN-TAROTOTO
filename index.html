@@ -3202,7 +3202,7 @@ function extractMatches() {
 ========================================================= */
 
 function cleanTeamName(name) {
-
+name = name.replace(/^\s*\d{1,2}\s*[.)、．:：-]?\s*/, "");
     return name
         .replace(/^[\s\d①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬．.\-:：]+/, "")
         .replace(/\s+/g, " ")
