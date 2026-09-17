@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SHIN-TAROTOTO 13試合予測</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -22,14 +18,13 @@ body {
         "Meiryo",
         Arial,
         sans-serif;
-
     background: #f3f4f6;
     color: #222;
 }
 
 .container {
     width: 100%;
-    max-width: 950px;
+    max-width: 1100px;
     margin: auto;
     padding: 15px;
 }
@@ -73,15 +68,11 @@ header p {
 textarea {
     width: 100%;
     min-height: 230px;
-
     padding: 12px;
-
     border: 1px solid #bbb;
     border-radius: 8px;
-
     font-size: 15px;
     line-height: 1.6;
-
     resize: vertical;
 }
 
@@ -94,16 +85,16 @@ textarea {
 
 button {
     width: 100%;
-
     border: none;
     border-radius: 10px;
-
     padding: 15px;
-
     font-size: 18px;
     font-weight: bold;
-
     cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
 }
 
 .extract-button {
@@ -119,10 +110,6 @@ button {
 .reset-button {
     background: #6b7280;
     color: white;
-}
-
-button:hover {
-    opacity: 0.9;
 }
 
 .message {
@@ -155,7 +142,7 @@ button:hover {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 760px;
 }
 
 th {
@@ -183,40 +170,122 @@ td {
 .team-input {
     width: 100%;
     padding: 9px;
-
     border: 1px solid #bbb;
     border-radius: 6px;
-
     font-size: 15px;
+}
+
+.number-input {
+    width: 65px;
+    padding: 9px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
 }
 
 .section-title {
     margin-top: 25px;
     margin-bottom: 12px;
-
     font-size: 22px;
     font-weight: bold;
 }
 
-#matchArea {
+#matchArea,
+#resultArea,
+#tarotArea {
     display: none;
 }
 
-#resultArea {
-    display: none;
+.tarot-draw-area {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.tarot-card {
+    width: 170px;
+    max-width: 70vw;
+    border-radius: 8px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+    transition: transform 0.25s ease;
+}
+
+.tarot-card.reversed {
+    transform: rotate(180deg);
+}
+
+.tarot-name {
+    margin-top: 12px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.tarot-position {
+    margin-top: 6px;
+    font-size: 16px;
+}
+
+.tarot-status {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tarot-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.tarot-result {
+    text-align: center;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.tarot-result img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.tarot-result img.reversed {
+    transform: rotate(180deg);
+}
+
+.tarot-result .match-number {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.final-table {
+    min-width: 950px;
+}
+
+.final-number {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.prediction {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: #111827;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .result-card {
     background: white;
-
     border-radius: 12px;
-
     padding: 15px;
-
     margin-bottom: 12px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .result-number {
@@ -229,37 +298,12 @@ td {
     font-size: 16px;
 }
 
-.prediction {
-    display: inline-block;
-
-    padding: 8px 18px;
-
-    border-radius: 20px;
-
-    background: #111827;
-    color: white;
-
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.confidence {
-    margin-top: 8px;
-    color: #666;
-    font-size: 14px;
-}
-
 .summary {
     background: white;
-
     border-radius: 12px;
-
     padding: 18px;
-
     margin-top: 20px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .summary h3 {
@@ -268,26 +312,52 @@ td {
 
 .summary-row {
     display: flex;
-
     justify-content: space-between;
-
     padding: 9px 0;
-
     border-bottom: 1px solid #eee;
+}
+
+.ticket {
+    background: #f9fafb;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.ticket-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.ticket-values {
+    font-size: 20px;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+.small-note {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 10px;
 }
 
 footer {
     text-align: center;
-
     color: #777;
-
     font-size: 13px;
-
     margin: 30px 0 10px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
+    .tarot-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
+@media (max-width: 600px) {
     .container {
         padding: 10px;
     }
@@ -303,51 +373,38 @@ footer {
     button {
         font-size: 17px;
     }
+
+    .tarot-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-
 <header>
-
     <h1>SHIN-TAROTOTO</h1>
-
     <p>13試合 予測WEB版</p>
-
 </header>
 
 
-<!-- ======================================
-     STEP 1
-====================================== -->
+<!-- STEP 1 -->
 
 <div class="card">
 
     <h2>① スポーツくじの試合データを貼り付け</h2>
 
     <div class="explanation">
-
         スポーツくじのサイトから、
         試合以外の情報も含めてそのままコピーしてください。
-
         <br><br>
-
-        コピーしたデータを、下の欄にそのまま貼り付けます。
-
+        コピーしたデータを、下の欄に貼り付けます。
         <br><br>
-
-        <strong>
-        ホームチーム　vs　アウェーチーム
-        </strong>
-
+        <strong>ホームチーム　vs　アウェーチーム</strong>
         の形を自動的に探します。
-
     </div>
 
     <br>
@@ -357,90 +414,67 @@ footer {
         placeholder="スポーツくじのサイトからコピーしたデータを、ここにそのまま貼り付けてください。"
     ></textarea>
 
-
     <div class="button-area">
-
         <button
             class="extract-button"
             onclick="extractMatches()">
-
             ② 13試合を抽出する
-
         </button>
-
     </div>
 
-
-    <div
-        id="message"
-        class="message">
-    </div>
+    <div id="message" class="message"></div>
 
 </div>
 
 
+<!-- STEP 2 -->
 
-<!-- ======================================
-     STEP 2
-====================================== -->
-
-<div
-    id="matchArea"
-    class="card">
+<div id="matchArea" class="card">
 
     <h2>③ 13試合を確認してください</h2>
 
     <p>
         自動抽出されたチーム名を確認してください。
-        間違っている場合は直接修正できます。
+        必要なら直接修正できます。
     </p>
-
 
     <div class="table-wrapper">
 
         <table>
 
             <thead>
-
                 <tr>
-
                     <th>No.</th>
-
                     <th>ホームチーム</th>
-
                     <th>vs</th>
-
                     <th>アウェーチーム</th>
-
+                    <th>スポーツくじ</th>
+                    <th>totoONE</th>
                 </tr>
-
             </thead>
 
-            <tbody id="matchTable">
-
-            </tbody>
+            <tbody id="matchTable"></tbody>
 
         </table>
 
     </div>
 
+    <div class="small-note">
+        スポーツくじ予想とtotoONE予想は、1・0・2を入力してください。
+    </div>
 
     <div class="button-area">
 
         <button
             class="predict-button"
             onclick="predictAll()">
-
             ④ 13試合を予測する
-
         </button>
 
         <button
             class="reset-button"
             onclick="resetAll()">
-
             入力をリセット
-
         </button>
 
     </div>
@@ -448,18 +482,69 @@ footer {
 </div>
 
 
+<!-- STEP 3 -->
 
-<!-- ======================================
-     STEP 3
-====================================== -->
+<div id="tarotArea" class="card">
 
-<div
-    id="resultArea"
-    class="card">
+    <h2>⑤ タロット13枚を自動抽選</h2>
 
-    <h2>⑤ 予測結果</h2>
+    <div class="tarot-draw-area">
 
-    <div id="results"></div>
+        <div id="tarotStatus">
+            タロットカードを準備しています。
+        </div>
+
+        <br>
+
+        <img
+            id="currentTarot"
+            class="tarot-card"
+            src=""
+            alt="タロットカード"
+            style="display:none;">
+
+        <div id="currentTarotName" class="tarot-name"></div>
+
+        <div id="currentTarotPosition" class="tarot-position"></div>
+
+        <div id="currentTarotResult" class="tarot-status"></div>
+
+    </div>
+
+    <div id="tarotGrid" class="tarot-grid"></div>
+
+</div>
+
+
+<!-- STEP 4 -->
+
+<div id="resultArea" class="card">
+
+    <h2>⑥ 最終予測結果</h2>
+
+    <div class="table-wrapper">
+
+        <table class="final-table">
+
+            <thead>
+
+                <tr>
+                    <th>No.</th>
+                    <th>ホーム</th>
+                    <th>アウェイ</th>
+                    <th>スポーツくじ</th>
+                    <th>totoONE</th>
+                    <th>タロット</th>
+                    <th>最終予測</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="finalTable"></tbody>
+
+        </table>
+
+    </div>
 
 
     <div class="summary">
@@ -467,27 +552,18 @@ footer {
         <h3>13試合の集計</h3>
 
         <div class="summary-row">
-
             <span>1　ホーム勝ち</span>
-
             <strong id="homeCount">0</strong>
-
         </div>
 
         <div class="summary-row">
-
             <span>0　引き分け</span>
-
             <strong id="drawCount">0</strong>
-
         </div>
 
         <div class="summary-row">
-
             <span>2　アウェイ勝ち</span>
-
             <strong id="awayCount">0</strong>
-
         </div>
 
     </div>
@@ -495,15 +571,27 @@ footer {
 </div>
 
 
-<footer>
+<!-- STEP 5 -->
 
-    SHIN-TAROTOTO
+<div id="ticketArea" class="card" style="display:none;">
 
-</footer>
+    <h2>⑦ 5種類の組み合わせ</h2>
 
+    <div id="tickets"></div>
+
+    <div class="small-note">
+        ※ここでは最終予測を基準に5種類の組み合わせを表示します。
+        5種類の正式な作成ルールが決まり次第、そのルールに置き換えられます。
+    </div>
 
 </div>
 
+
+<footer>
+    SHIN-TAROTOTO
+</footer>
+
+</div>
 
 
 <script>
@@ -516,14 +604,193 @@ const MATCH_COUNT = 13;
 
 
 /* =========================================
+   Rider-Waite-Smith 大アルカナ
+   Wikimedia Commons
+========================================= */
+
+const tarotCards = [
+
+    {
+        name: "愚者",
+        file: "The_Fool_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 2
+    },
+
+    {
+        name: "魔術師",
+        file: "The_Magician_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "女教皇",
+        file: "The_High_Priestess_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 2
+    },
+
+    {
+        name: "女帝",
+        file: "The_Empress_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "皇帝",
+        file: "The_Emperor_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 2
+    },
+
+    {
+        name: "法王",
+        file: "The_Hierophant_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 1
+    },
+
+    {
+        name: "恋人",
+        file: "The_Lovers_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "戦車",
+        file: "The_Chariot_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 2
+    },
+
+    {
+        name: "力",
+        file: "Strength_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "隠者",
+        file: "The_Hermit_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 2
+    },
+
+    {
+        name: "運命の輪",
+        file: "Wheel_of_Fortune_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 2
+    },
+
+    {
+        name: "正義",
+        file: "Justice_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 1
+    },
+
+    {
+        name: "吊るされた男",
+        file: "The_Hanged_Man_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 2
+    },
+
+    {
+        name: "死神",
+        file: "Death_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 2,
+        reversed: 1
+    },
+
+    {
+        name: "節制",
+        file: "Temperance_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 0,
+        reversed: 1
+    },
+
+    {
+        name: "悪魔",
+        file: "The_Devil_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 2,
+        reversed: 0
+    },
+
+    {
+        name: "塔",
+        file: "The_Tower_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 2,
+        reversed: 0
+    },
+
+    {
+        name: "星",
+        file: "The_Star_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "月",
+        file: "The_Moon_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 2,
+        reversed: 0
+    },
+
+    {
+        name: "太陽",
+        file: "The_Sun_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    },
+
+    {
+        name: "審判",
+        file: "Judgement_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 2
+    },
+
+    {
+        name: "世界",
+        file: "The_World_(Rider-Waite_Smith_tarot_deck).png",
+        upright: 1,
+        reversed: 0
+    }
+
+];
+
+
+/* =========================================
+   画像URL
+========================================= */
+
+function tarotImage(card) {
+
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/"
+        + encodeURIComponent(card.file)
+        + "?width=320";
+
+}
+
+
+/* =========================================
    試合データ
 ========================================= */
 
 let matches = [];
 
+let tarotResults = [];
+
 
 /* =========================================
-   メッセージ表示
+   メッセージ
 ========================================= */
 
 function showMessage(text, type) {
@@ -541,7 +808,7 @@ function showMessage(text, type) {
 
 
 /* =========================================
-   チーム名の整理
+   チーム名整理
 ========================================= */
 
 function cleanTeamName(text) {
@@ -567,7 +834,7 @@ function cleanTeamName(text) {
 
 
 /* =========================================
-   1行から対戦カードを探す
+   1行から試合を探す
 ========================================= */
 
 function parseLine(line) {
@@ -582,24 +849,8 @@ function parseLine(line) {
         return null;
     }
 
-
-    /*
-       タブをスペースに変換
-    */
-
     text = text.replace(/\t+/g, " ");
-
-
-    /*
-       連続スペースを整理
-    */
-
     text = text.replace(/\s+/g, " ");
-
-
-    /*
-       さまざまな「vs」を統一
-    */
 
     const separators = [
         " vs ",
@@ -611,7 +862,6 @@ function parseLine(line) {
         " 対"
     ];
 
-
     for (const separator of separators) {
 
         const position =
@@ -620,29 +870,15 @@ function parseLine(line) {
         if (position >= 0) {
 
             let home =
-                text.substring(
-                    0,
-                    position
-                ).trim();
+                text.substring(0, position).trim();
 
             let away =
                 text.substring(
-                    position +
-                    separator.length
+                    position + separator.length
                 ).trim();
-
-
-            /*
-               前後の不要情報を整理
-            */
 
             home = cleanTeamName(home);
             away = cleanTeamName(away);
-
-
-            /*
-               空欄なら採用しない
-            */
 
             if (
                 home.length >= 2 &&
@@ -655,31 +891,23 @@ function parseLine(line) {
                 };
 
             }
+
         }
+
     }
-
-
-    /*
-       「ホーム vs アウェイ」
-       以外に「ホーム　アウェイ」
-       のようなデータにも対応
-    */
 
     return null;
 }
 
 
 /* =========================================
-   貼り付けデータから試合を抽出
+   試合抽出
 ========================================= */
 
 function extractMatches() {
 
     const source =
-        document.getElementById(
-            "sourceData"
-        ).value;
-
+        document.getElementById("sourceData").value;
 
     if (!source.trim()) {
 
@@ -691,72 +919,45 @@ function extractMatches() {
         return;
     }
 
-
-    /*
-       改行で分割
-    */
-
     const lines =
         source.split(/\r?\n/);
 
-
     let found = [];
-
 
     for (let line of lines) {
 
-        const match =
-            parseLine(line);
+        const match = parseLine(line);
 
         if (match) {
-
             found.push(match);
-
         }
 
     }
 
-
-    /*
-       重複を削除
-    */
-
     const unique = [];
-
     const used = new Set();
-
 
     for (const match of found) {
 
         const key =
-            match.home +
-            "___" +
-            match.away;
-
+            match.home + "___" + match.away;
 
         if (!used.has(key)) {
 
             used.add(key);
-
             unique.push(match);
 
         }
 
     }
 
-
     matches =
         unique.slice(0, MATCH_COUNT);
-
-
-    /*
-       13試合より少ない場合
-    */
 
     if (matches.length === 0) {
 
         showMessage(
-            "対戦カードを自動抽出できませんでした。下の表へ直接入力してください。",
+            "対戦カードを自動抽出できませんでした。表へ直接入力してください。",
             "warning"
         );
 
@@ -764,7 +965,6 @@ function extractMatches() {
 
         return;
     }
-
 
     if (matches.length < MATCH_COUNT) {
 
@@ -774,8 +974,7 @@ function extractMatches() {
             "warning"
         );
 
-    }
-    else {
+    } else {
 
         showMessage(
             "13試合を抽出しました。内容を確認してください。",
@@ -784,14 +983,13 @@ function extractMatches() {
 
     }
 
-
     createMatchTable();
 
 }
 
 
 /* =========================================
-   空の13試合表
+   空の表
 ========================================= */
 
 function createEmptyTable() {
@@ -817,19 +1015,15 @@ function createEmptyTable() {
 
 
 /* =========================================
-   試合表を作成
+   試合表
 ========================================= */
 
 function createMatchTable() {
 
     const table =
-        document.getElementById(
-            "matchTable"
-        );
-
+        document.getElementById("matchTable");
 
     table.innerHTML = "";
-
 
     for (
         let i = 0;
@@ -843,10 +1037,8 @@ function createMatchTable() {
                 away: ""
             };
 
-
         const row =
             document.createElement("tr");
-
 
         row.innerHTML = `
 
@@ -855,13 +1047,11 @@ function createMatchTable() {
             </td>
 
             <td>
-
                 <input
                     class="team-input"
                     id="home${i}"
                     value="${escapeHtml(match.home)}"
                     placeholder="ホームチーム">
-
             </td>
 
             <td class="vs-cell">
@@ -869,39 +1059,58 @@ function createMatchTable() {
             </td>
 
             <td>
-
                 <input
                     class="team-input"
                     id="away${i}"
                     value="${escapeHtml(match.away)}"
                     placeholder="アウェーチーム">
+            </td>
 
+            <td>
+                <input
+                    class="number-input"
+                    id="sports${i}"
+                    maxlength="1"
+                    inputmode="numeric"
+                    placeholder="1/0/2">
+            </td>
+
+            <td>
+                <input
+                    class="number-input"
+                    id="toto${i}"
+                    maxlength="1"
+                    inputmode="numeric"
+                    placeholder="1/0/2">
             </td>
 
         `;
-
 
         table.appendChild(row);
 
     }
 
-
     document.getElementById(
         "matchArea"
     ).style.display = "block";
 
+    document.getElementById(
+        "tarotArea"
+    ).style.display = "none";
 
     document.getElementById(
         "resultArea"
     ).style.display = "none";
 
+    document.getElementById(
+        "ticketArea"
+    ).style.display = "none";
 
     window.scrollTo({
         top:
             document.getElementById(
                 "matchArea"
             ).offsetTop - 15,
-
         behavior: "smooth"
     });
 
@@ -909,13 +1118,27 @@ function createMatchTable() {
 
 
 /* =========================================
-   表から試合データを取得
+   1 / 0 / 2チェック
+========================================= */
+
+function is012(value) {
+
+    return (
+        value === "0" ||
+        value === "1" ||
+        value === "2"
+    );
+
+}
+
+
+/* =========================================
+   試合データ取得
 ========================================= */
 
 function readMatches() {
 
     const data = [];
-
 
     for (
         let i = 0;
@@ -928,12 +1151,20 @@ function readMatches() {
                 "home" + i
             ).value.trim();
 
-
         const away =
             document.getElementById(
                 "away" + i
             ).value.trim();
 
+        const sports =
+            document.getElementById(
+                "sports" + i
+            ).value.trim();
+
+        const toto =
+            document.getElementById(
+                "toto" + i
+            ).value.trim();
 
         if (
             home === "" ||
@@ -943,312 +1174,552 @@ function readMatches() {
             alert(
                 "第" +
                 (i + 1) +
-                "試合のホームチームとアウェーチームを入力してください。"
+                "試合のチーム名を入力してください。"
             );
 
-
-            document.getElementById(
-                home === ""
-                ? "home" + i
-                : "away" + i
-            ).focus();
-
-
             return null;
-
         }
 
+        if (!is012(sports)) {
+
+            alert(
+                "第" +
+                (i + 1) +
+                "試合のスポーツくじ予想に1・0・2を入力してください。"
+            );
+
+            document.getElementById(
+                "sports" + i
+            ).focus();
+
+            return null;
+        }
+
+        if (!is012(toto)) {
+
+            alert(
+                "第" +
+                (i + 1) +
+                "試合のtotoONE予想に1・0・2を入力してください。"
+            );
+
+            document.getElementById(
+                "toto" + i
+            ).focus();
+
+            return null;
+        }
 
         data.push({
             home: home,
-            away: away
+            away: away,
+            sports: sports,
+            toto: toto
         });
 
     }
 
-
     return data;
+
 }
 
 
 /* =========================================
-   予測計算
+   Excel版と同じ最終判定
 ========================================= */
 
-function calculatePrediction(
-    home,
-    away,
-    matchNo
+function calculateFinal(
+    sportsValue,
+    totoValue,
+    tarotResult
 ) {
 
-    function teamValue(name) {
+    if (
+        is012(sportsValue) &&
+        is012(totoValue)
+    ) {
 
-        let value = 0;
-
-
-        for (
-            let i = 0;
-            i < name.length;
-            i++
+        if (
+            sportsValue === totoValue
         ) {
 
-            value +=
-                name.charCodeAt(i) *
-                (i + 1);
+            return sportsValue;
+
+        } else {
+
+            return String(tarotResult);
 
         }
 
-
-        return value;
     }
 
+    return String(tarotResult);
 
-    const homeValue =
-        teamValue(home);
-
-
-    const awayValue =
-        teamValue(away);
-
-
-    /*
-       ホームアドバンテージ
-    */
-
-    const homeScore =
-        (homeValue % 100) + 15;
-
-
-    const awayScore =
-        (awayValue % 100);
-
-
-    const difference =
-        homeScore - awayScore;
-
-
-    let prediction;
-    let confidence;
-
-
-    if (difference >= 25) {
-
-        prediction = "1";
-        confidence = "高";
-
-    }
-    else if (difference >= 8) {
-
-        prediction = "1";
-        confidence = "中";
-
-    }
-    else if (difference <= -25) {
-
-        prediction = "2";
-        confidence = "高";
-
-    }
-    else if (difference <= -8) {
-
-        prediction = "2";
-        confidence = "中";
-
-    }
-    else {
-
-        prediction = "0";
-        confidence = "中";
-
-    }
-
-
-    return {
-        prediction:
-            prediction,
-
-        confidence:
-            confidence
-    };
 }
 
 
 /* =========================================
-   13試合予測
+   結果文字
 ========================================= */
 
-function predictAll() {
+function resultText(value) {
+
+    if (value === "1") {
+        return "1　ホーム勝ち";
+    }
+
+    if (value === "0") {
+        return "0　引き分け";
+    }
+
+    return "2　アウェイ勝ち";
+
+}
+
+
+/* =========================================
+   タロット1枚抽選
+========================================= */
+
+function drawTarotCard(used) {
+
+    let index;
+
+    do {
+
+        index =
+            Math.floor(
+                Math.random() *
+                tarotCards.length
+            );
+
+    } while (
+        used.includes(index)
+    );
+
+    used.push(index);
+
+    const card =
+        tarotCards[index];
+
+    const reversed =
+        Math.random() < 0.5;
+
+    const result =
+        reversed
+        ? card.reversed
+        : card.upright;
+
+    return {
+        index: index,
+        card: card,
+        reversed: reversed,
+        result: result
+    };
+
+}
+
+
+/* =========================================
+   タロット13枚自動抽選
+========================================= */
+
+async function drawAllTarot() {
+
+    tarotResults = [];
+
+    const used = [];
+
+    const currentImage =
+        document.getElementById(
+            "currentTarot"
+        );
+
+    const currentName =
+        document.getElementById(
+            "currentTarotName"
+        );
+
+    const currentPosition =
+        document.getElementById(
+            "currentTarotPosition"
+        );
+
+    const currentResult =
+        document.getElementById(
+            "currentTarotResult"
+        );
+
+    const status =
+        document.getElementById(
+            "tarotStatus"
+        );
+
+    const grid =
+        document.getElementById(
+            "tarotGrid"
+        );
+
+    grid.innerHTML = "";
+
+    currentImage.style.display = "block";
+
+    for (
+        let i = 0;
+        i < MATCH_COUNT;
+        i++
+    ) {
+
+        const draw =
+            drawTarotCard(used);
+
+        tarotResults.push(draw);
+
+        status.textContent =
+            "第" + (i + 1) + "試合のカードを引いています……";
+
+        currentImage.src =
+            tarotImage(draw.card);
+
+        currentImage.className =
+            draw.reversed
+            ? "tarot-card reversed"
+            : "tarot-card";
+
+        currentName.textContent =
+            draw.card.name;
+
+        currentPosition.textContent =
+            draw.reversed
+            ? "逆位置"
+            : "正位置";
+
+        currentResult.textContent =
+            "カードの結果： " +
+            draw.result;
+
+        await sleep(1000);
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "tarot-result";
+
+        item.innerHTML = `
+
+            <div class="match-number">
+                第${i + 1}試合
+            </div>
+
+            <img
+                src="${tarotImage(draw.card)}"
+                class="${draw.reversed ? "reversed" : ""}"
+                alt="${escapeHtml(draw.card.name)}">
+
+            <div>
+                ${escapeHtml(draw.card.name)}
+            </div>
+
+            <div>
+                ${draw.reversed ? "逆位置" : "正位置"}
+            </div>
+
+            <strong>
+                ${draw.result}
+            </strong>
+
+        `;
+
+        grid.appendChild(item);
+
+    }
+
+    status.textContent =
+        "13枚のタロット抽選が完了しました。";
+
+}
+
+
+/* =========================================
+   待機
+========================================= */
+
+function sleep(ms) {
+
+    return new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
+
+}
+
+
+/* =========================================
+   予測開始
+========================================= */
+
+async function predictAll() {
 
     const data =
         readMatches();
-
 
     if (!data) {
         return;
     }
 
+    document.getElementById(
+        "tarotArea"
+    ).style.display = "block";
 
-    const results =
+    document.getElementById(
+        "resultArea"
+    ).style.display = "none";
+
+    document.getElementById(
+        "ticketArea"
+    ).style.display = "none";
+
+    window.scrollTo({
+        top:
+            document.getElementById(
+                "tarotArea"
+            ).offsetTop - 15,
+        behavior: "smooth"
+    });
+
+    await drawAllTarot();
+
+    createFinalResults(data);
+
+}
+
+
+/* =========================================
+   最終結果作成
+========================================= */
+
+function createFinalResults(data) {
+
+    const table =
         document.getElementById(
-            "results"
+            "finalTable"
         );
 
-
-    results.innerHTML = "";
-
+    table.innerHTML = "";
 
     let homeCount = 0;
     let drawCount = 0;
     let awayCount = 0;
 
-
     for (
         let i = 0;
-        i < data.length;
+        i < MATCH_COUNT;
         i++
     ) {
 
         const match =
             data[i];
 
+        const tarot =
+            tarotResults[i];
 
-        const result =
-            calculatePrediction(
-                match.home,
-                match.away,
-                i + 1
+        const finalResult =
+            calculateFinal(
+                match.sports,
+                match.toto,
+                tarot.result
             );
 
-
-        if (
-            result.prediction === "1"
-        ) {
-
+        if (finalResult === "1") {
             homeCount++;
-
         }
-        else if (
-            result.prediction === "0"
-        ) {
-
+        else if (finalResult === "0") {
             drawCount++;
-
         }
         else {
-
             awayCount++;
-
         }
 
+        const row =
+            document.createElement("tr");
 
-        let text;
+        row.innerHTML = `
 
+            <td class="final-number">
+                ${i + 1}
+            </td>
 
-        if (
-            result.prediction === "1"
-        ) {
-
-            text =
-                "1　ホーム勝ち";
-
-        }
-        else if (
-            result.prediction === "0"
-        ) {
-
-            text =
-                "0　引き分け";
-
-        }
-        else {
-
-            text =
-                "2　アウェイ勝ち";
-
-        }
-
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-
-        card.className =
-            "result-card";
-
-
-        card.innerHTML = `
-
-            <div class="result-number">
-                第${i + 1}試合
-            </div>
-
-            <div class="result-teams">
-
+            <td>
                 ${escapeHtml(match.home)}
+            </td>
 
-               　vs　
-
+            <td>
                 ${escapeHtml(match.away)}
+            </td>
 
-            </div>
+            <td>
+                ${match.sports}
+            </td>
 
-            <div class="prediction">
+            <td>
+                ${match.toto}
+            </td>
 
-                ${text}
+            <td>
+                ${escapeHtml(tarot.card.name)}
+                <br>
+                ${tarot.reversed ? "逆" : "正"}
+                <br>
+                ${tarot.result}
+            </td>
 
-            </div>
-
-            <div class="confidence">
-
-                信頼度：
-                ${result.confidence}
-
-            </div>
+            <td>
+                <span class="prediction">
+                    ${resultText(finalResult)}
+                </span>
+            </td>
 
         `;
 
-
-        results.appendChild(card);
+        table.appendChild(row);
 
     }
 
-
     document.getElementById(
         "homeCount"
-    ).textContent =
-        homeCount;
-
+    ).textContent = homeCount;
 
     document.getElementById(
         "drawCount"
-    ).textContent =
-        drawCount;
-
+    ).textContent = drawCount;
 
     document.getElementById(
         "awayCount"
-    ).textContent =
-        awayCount;
-
+    ).textContent = awayCount;
 
     document.getElementById(
         "resultArea"
-    ).style.display =
-        "block";
+    ).style.display = "block";
 
+    createTickets(data);
 
     window.scrollTo({
-
         top:
             document.getElementById(
                 "resultArea"
             ).offsetTop - 15,
-
         behavior: "smooth"
-
     });
+
+}
+
+
+/* =========================================
+   5種類の表示
+   ※正式ルール確定前の暫定表示
+========================================= */
+
+function createTickets(data) {
+
+    const area =
+        document.getElementById("tickets");
+
+    area.innerHTML = "";
+
+    const finalValues = [];
+
+    for (
+        let i = 0;
+        i < MATCH_COUNT;
+        i++
+    ) {
+
+        const tarot =
+            tarotResults[i];
+
+        const finalResult =
+            calculateFinal(
+                data[i].sports,
+                data[i].toto,
+                tarot.result
+            );
+
+        finalValues.push(finalResult);
+
+    }
+
+
+    for (
+        let pattern = 1;
+        pattern <= 5;
+        pattern++
+    ) {
+
+        const ticket =
+            document.createElement("div");
+
+        ticket.className = "ticket";
+
+        let values =
+            finalValues.slice();
+
+        /*
+           現段階では5種類を
+           自動表示するための暫定変化
+        */
+
+        if (pattern > 1) {
+
+            const changes =
+                pattern - 1;
+
+            for (
+                let c = 0;
+                c < changes;
+                c++
+            ) {
+
+                const position =
+                    (c * 3 + pattern - 1)
+                    % MATCH_COUNT;
+
+                if (
+                    values[position] === "1"
+                ) {
+                    values[position] = "0";
+                }
+                else if (
+                    values[position] === "0"
+                ) {
+                    values[position] = "2";
+                }
+                else {
+                    values[position] = "1";
+                }
+
+            }
+
+        }
+
+        ticket.innerHTML = `
+
+            <div class="ticket-title">
+                パターン ${pattern}
+            </div>
+
+            <div class="ticket-values">
+                ${values.join("　")}
+            </div>
+
+        `;
+
+        area.appendChild(ticket);
+
+    }
+
+    document.getElementById(
+        "ticketArea"
+    ).style.display = "block";
 
 }
 
@@ -1261,36 +1732,21 @@ function escapeHtml(text) {
 
     return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
 
 }
 
 
 /* =========================================
-   全リセット
+   リセット
 ========================================= */
 
 function resetAll() {
@@ -1300,46 +1756,48 @@ function resetAll() {
             "入力した内容をすべて消しますか？"
         )
     ) {
-
         return;
-
     }
-
 
     document.getElementById(
         "sourceData"
     ).value = "";
 
-
     document.getElementById(
         "matchTable"
     ).innerHTML = "";
-
 
     document.getElementById(
         "matchArea"
     ).style.display = "none";
 
+    document.getElementById(
+        "tarotArea"
+    ).style.display = "none";
 
     document.getElementById(
         "resultArea"
     ).style.display = "none";
 
+    document.getElementById(
+        "ticketArea"
+    ).style.display = "none";
 
     document.getElementById(
         "message"
     ).style.display = "none";
 
+    document.getElementById(
+        "tarotGrid"
+    ).innerHTML = "";
+
+    tarotResults = [];
 
     matches = [];
 
-
     window.scrollTo({
-
         top: 0,
-
         behavior: "smooth"
-
     });
 
 }
