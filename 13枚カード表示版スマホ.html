@@ -64,42 +64,37 @@ frame.onload = function () {
         width: 100% !important;
         min-width: 0 !important;
         max-width: 100% !important;
-
         margin: 0 !important;
         padding: 8px !important;
-
         box-sizing: border-box !important;
-
         overflow-x: hidden !important;
     }
 
 
     /* =========================================
-       「カードを引く」ボタン
+       カードを引くボタン
        ========================================= */
 
     button,
     input[type="button"],
     input[type="submit"] {
 
-        font-size: 24px !important;
+        font-size: 28px !important;
 
         font-weight: bold !important;
 
-        padding: 16px 30px !important;
+        padding: 18px 34px !important;
 
-        min-height: 64px !important;
+        min-height: 70px !important;
 
         border-radius: 10px !important;
-
-        cursor: pointer !important;
 
         box-sizing: border-box !important;
     }
 
 
     /* =========================================
-       13枚カード
+       13枚カード・3列表示
        ========================================= */
 
     #board,
@@ -111,10 +106,13 @@ frame.onload = function () {
             repeat(3, minmax(0, 1fr)) !important;
 
         width: 100% !important;
+
         min-width: 0 !important;
+
         max-width: 100% !important;
 
         margin: 0 auto !important;
+
         padding: 0 !important;
 
         gap: 10px !important;
@@ -135,10 +133,13 @@ frame.onload = function () {
         display: block !important;
 
         width: 100% !important;
+
         min-width: 0 !important;
+
         max-width: 100% !important;
 
         margin: 0 !important;
+
         padding: 0 !important;
 
         box-sizing: border-box !important;
@@ -155,6 +156,7 @@ frame.onload = function () {
         display: block !important;
 
         width: 100% !important;
+
         max-width: 100% !important;
 
         height: auto !important;
@@ -218,8 +220,7 @@ frame.onload = function () {
 
 
     /* =========================================
-       判定
-       1・0・2 を大きく表示
+       勝（1）・負（2）・分（0）
        ========================================= */
 
     #board .result,
@@ -229,15 +230,15 @@ frame.onload = function () {
 
         width: 100% !important;
 
-        margin: 5px 0 8px 0 !important;
+        margin: 6px 0 10px 0 !important;
 
-        padding: 10px 2px !important;
+        padding: 8px 2px !important;
 
-        font-size: 32px !important;
+        font-size: 30px !important;
 
-        line-height: 1.2 !important;
+        line-height: 1.25 !important;
 
-        font-weight: bold !important;
+        font-weight: 900 !important;
 
         text-align: center !important;
 
@@ -254,25 +255,39 @@ frame.onload = function () {
 
 
     /* =========================================
-       勝・分・負の文字がある場合も大きくする
+       「判定」という文字だけを非表示
        ========================================= */
 
-    #board .result.win,
-    #board .result.draw,
-    #board .result.loss,
-    .board .result.win,
-    .board .result.draw,
-    .board .result.loss {
+    `;
 
-        font-size: 32px !important;
+    doc.head.appendChild(style);
 
-        font-weight: bold !important;
-    }
+
+    /* 「判定」だけの要素を探して非表示 */
+    const allElements = doc.querySelectorAll("*");
+
+    allElements.forEach(function(el) {
+
+        const text = el.textContent.trim();
+
+        if (
+            text === "判定" ||
+            text === "判定：" ||
+            text === "判定:"
+        ) {
+            el.style.display = "none";
+        }
+
+    });
 
 
     /* =========================================
        小さいスマートフォン
        ========================================= */
+
+    const smallStyle = doc.createElement("style");
+
+    smallStyle.innerHTML = `
 
     @media (max-width: 380px) {
 
@@ -289,45 +304,26 @@ frame.onload = function () {
         input[type="button"],
         input[type="submit"] {
 
-            font-size: 22px !important;
+            font-size: 26px !important;
 
-            padding: 14px 24px !important;
+            padding: 16px 28px !important;
 
-            min-height: 60px !important;
-        }
-
-        #board .name,
-        #board .card-name,
-        .board .name,
-        .board .card-name {
-
-            font-size: 11px !important;
-        }
-
-        #board .orientation,
-        .board .orientation {
-
-            font-size: 10px !important;
+            min-height: 64px !important;
         }
 
         #board .result,
-        .board .result,
-        #board .result.win,
-        #board .result.draw,
-        #board .result.loss,
-        .board .result.win,
-        .board .result.draw,
-        .board .result.loss {
+        .board .result {
 
-            font-size: 28px !important;
+            font-size: 27px !important;
 
-            padding: 9px 2px !important;
+            padding: 7px 2px !important;
         }
+
     }
 
     `;
 
-    doc.head.appendChild(style);
+    doc.head.appendChild(smallStyle);
 
 
     /* =========================================
@@ -351,6 +347,7 @@ frame.onload = function () {
             frame.style.height = "3000px";
 
         }
+
     }
 
 
