@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>13枚カード表示版・スマホ対応</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #f5f5f5;
+    font-family:
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+}
+
+.header {
+    width: 100%;
+    padding: 12px 10px;
+    text-align: center;
+    background: #ffffff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #555555;
+}
+
+.frame-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+#cardFrame {
+    display: block;
+    width: 100%;
+    min-height: 900px;
+    height: 1200px;
+    border: 0;
+    background: #ffffff;
+}
+
+@media (max-width: 700px) {
+
+    .header {
+        padding: 10px 8px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header p {
+        font-size: 12px;
+    }
+
+    #cardFrame {
+        min-height: 800px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>13枚のタロットカード</h1>
+    <p>スマートフォンでは左右にスワイプして13枚をご覧ください</p>
+</div>
+
+<div class="frame-wrap">
+
+    <iframe
+        id="cardFrame"
+        src="13%E6%9E%9A%E3%82%AB%E3%83%BC%E3%83%89%E8%A1%A8%E7%A4%BA%E7%89%88.html"
+        title="13枚のタロットカード">
+    </iframe>
+
+</div>
+
+<script>
+
+const frame = document.getElementById("cardFrame");
+
+
+/* =========================================
+   元の13枚カードページを読み込んだ後の処理
+========================================= */
+
+function enhanceCardPage() {
+
+    const doc = frame.contentDocument;
+
+    if (!doc) {
+        return;
+    }
+
+
+    /* -----------------------------------------
+       スマートフォン用 viewport を追加
+    ----------------------------------------- */
+
+    if (!doc.querySelector('meta[name="viewport"]')) {
+
+        const meta = doc.createElement("meta");
+
+        meta.name = "viewport";
+
+        meta.content =
+            "width=device-width, initial-scale=1.0";
+
+        doc.head.appendChild(meta);
+    }
+
+
+    /* -----------------------------------------
+       元ページにスマホ対応CSSを追加
+    ----------------------------------------- */
+
+    const style = doc.createElement("style");
+
+    style.textContent = `
+
+        html {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        body {
+            margin: 0 !important;
+            padding: 10px !important;
+            width: 100% !important;
+
+            overflow-x: auto !important;
+
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+
+        /*
+         * カード画像は元の大きさを保つ
+         * → スマホでは左右にスワイプして見る
+         */
+
+        img {
+            max-width: none !important;
+        }
+
+
+        /*
+         * 横長の表なども切れないようにする
+         */
+
+        table {
+            max-width: none !important;
+        }
+
+
+        /*
+         * 勝・分・負の表示
+         */
+
+        .tarot-result-badge {
+
+            display: inline-block !important;
+
+            padding: 6px 14px !important;
+
+            margin-top: 6px !important;
+
+            border: 2px solid #777 !important;
+
+            border-radius: 20px !important;
+
+            background: #ffffff !important;
+
+            font-size: 17px !important;
+
+            font-weight: bold !important;
+
+            line-height: 1.4 !important;
+
+            text-align: center !important;
+
+            white-space: nowrap !important;
+        }
+
+    `;
+
+    doc.head.appendChild(style);
+
+
+    /* -----------------------------------------
+       勝・分・負を見つけて見やすくする
+    ----------------------------------------- */
+
+    const elements = doc.querySelectorAll("body *");
+
+    elements.forEach(function(el) {
+
+        /*
+         * 子要素を持たない文字部分だけを対象
+         */
+
+        if (el.children.length !== 0) {
+            return;
+        }
+
+        let text =
+            (el.textContent || "")
+            .replace(/[ \t\r\n]/g, "");
+
+        if (
+            text === "勝（1）" ||
+            text === "勝(1)" ||
+            text === "勝(１)" ||
+            text === "勝（１）" ||
+
+            text === "分（0）" ||
+            text === "分(0)" ||
+            text === "分(０)" ||
+            text === "分（０）" ||
+
+            text === "負（2）" ||
+            text === "負(2)" ||
+            text === "負(２)" ||
+            text === "負（２）"
+        ) {
+
+            el.classList.add("tarot-result-badge");
+
+        }
+
+    });
+
+
+    /* -----------------------------------------
+       iframeの高さを自動調整
+    ----------------------------------------- */
+
+    setTimeout(function() {
+
+        const bodyHeight =
+            doc.body ? doc.body.scrollHeight : 0;
+
+        const htmlHeight =
+            doc.documentElement ?
+            doc.documentElement.scrollHeight : 0;
+
+        const height =
+            Math.max(
+                800,
+                bodyHeight,
+                htmlHeight
+            );
+
+        frame.style.height =
+            height + "px";
+
+    }, 300);
+
+}
+
+
+/* =========================================
+   元ページの読み込み完了時
+========================================= */
+
+frame.addEventListener(
+    "load",
+    enhanceCardPage
+);
+
+</script>
+
+</body>
+</html>
